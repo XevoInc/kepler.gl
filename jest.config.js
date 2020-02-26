@@ -23,9 +23,7 @@ module.exports = {
   globals: {
     URL: 'http://localhost:8080'
   },
-  testMatch: [
-    '**/test/e2e/**/*.test.js'
-  ],
+  testMatch: ['**/test/e2e/**/*.test.js'],
   verbose: true,
   setupFilesAfterEnv: ['./jest-extend-image-snapshot']
 };

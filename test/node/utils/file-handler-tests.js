@@ -18,17 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import './data-utils-test';
-import './data-processor-test';
-import './filter-utils-test';
-import './gpu-filter-utils-test';
-import './layer-utils-test';
-import './data-scale-utils-test';
-import './interaction-utils-test';
-import './mapbox-gl-style-editor-test';
-import './notifications-utils-test';
-import './aggregate-utils-test';
-import './color-util-test';
-import './util-test';
-import './export-utils-test';
-import './file-handler-tests';
+import test from 'tape';
+import {getFileType, isKeplerGlMap} from 'processors/file-handler';
+
+test('#file-handler -> getFileType', t => {
+  t.equal(getFileType('filename.csv'), 'csv');
+
+  t.equal(getFileType('filename.json'), 'json');
+
+  t.equal(getFileType('filename.json.csv'), 'csv');
+
+  t.equal(getFileType('filename.geojson'), 'json');
+
+  t.equal(getFileType('filename.excel'), 'other');
+
+  t.end();
+});
+
+test('#file-handler -> isKeplerGlMap', t => {
+  t.equal(
+    isKeplerGlMap('{datasets: [], info: {app: "kepler.gl"}, config: {}}'),
+    false,
+    'Should return false when passing a json string'
+  );
+
+  t.equal(
+    isKeplerGlMap({datasets: [], info: {app: 'kepler.gl'}, config: {}}),
+    true,
+    'Should return true when object is a kepler map'
+  );
+
+  t.equal(
+    isKeplerGlMap({datasets: [], info: {app: 'kepler.gl'}}),
+    false,
+    'Should return false when object is not a kepler map'
+  );
+
+  t.end();
+});

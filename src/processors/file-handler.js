@@ -75,12 +75,12 @@ function readJSONFile(fileBlob) {
 }
 
 export function isKeplerGlMap(json) {
-  return (
+  return Boolean(
     typeof json === 'object' &&
-    json.datasets &&
-    json.config &&
-    json.info &&
-    json.info.app === 'kepler.gl'
+      json.datasets &&
+      json.config &&
+      json.info &&
+      json.info.app === 'kepler.gl'
   );
 }
 
