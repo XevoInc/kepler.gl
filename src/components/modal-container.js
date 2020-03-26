@@ -221,6 +221,12 @@ export default function ModalContainerFactory(
         template = <currentModal.template />;
         modalProps = currentModal.modalProps;
       } else {
+        const keplerGlConfig = KeplerGlSchema.getConfigToSave({
+          mapStyle,
+          visState,
+          mapState,
+          uiState
+        });
         switch (currentModal) {
           case DATA_TABLE_ID:
             const width = containerW * 0.9;
@@ -265,6 +271,7 @@ export default function ModalContainerFactory(
           case ADD_DATA_ID:
             template = (
               <LoadDataModal
+                config={keplerGlConfig}
                 onClose={this._closeModal}
                 onFileUpload={this._onFileUpload}
                 {...uiState.loadFiles}
@@ -322,12 +329,6 @@ export default function ModalContainerFactory(
             };
             break;
           case EXPORT_MAP_ID:
-            const keplerGlConfig = KeplerGlSchema.getConfigToSave({
-              mapStyle,
-              visState,
-              mapState,
-              uiState
-            });
             template = (
               <ExportMapModal
                 config={keplerGlConfig}
