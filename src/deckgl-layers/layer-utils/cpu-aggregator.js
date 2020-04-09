@@ -171,7 +171,7 @@ export const defaultAggregation = {
 
 function getSubLayerAccessor(dimensionState, dimension, layerProps) {
   return cell => {
-    const {sortedBins, scaleFunc} = dimensionState;
+    const {sortedBins, scaleFunc, valueDomain} = dimensionState;
     const bin = sortedBins.binMap[cell.index];
 
     if (bin && bin.counts === 0) {
@@ -182,7 +182,8 @@ function getSubLayerAccessor(dimensionState, dimension, layerProps) {
     const cv = bin && bin.value;
     const domain = scaleFunc.domain();
 
-    const isValueInDomain = cv >= domain[0] && cv <= domain[domain.length - 1];
+    const isValueInDomain =
+      (cv >= domain[0] && cv <= domain[domain.length - 1]) || valueDomain.includes(cv);
 
     // if cell value is outside domain, set alpha to 0
     return isValueInDomain ? scaleFunc(cv) : dimension.nullValue;
